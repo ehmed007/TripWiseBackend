@@ -34,14 +34,6 @@ public class Restaurant {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<RestaurantImage> restaurantImageList;
 
-    @JsonIgnoreProperties(value = {"restaurantList"})
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(
-            name = "Restaurant_Dish",
-            joinColumns = @JoinColumn(name = "Dish_id"),
-            inverseJoinColumns = @JoinColumn(name = "Restaurant_id")
-    )
-    private List<Dish> dishList;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
@@ -51,7 +43,7 @@ public class Restaurant {
         super();
     }
 
-    public Restaurant(Integer id, String restaurantName, String restaurantDescription, Float minPrice, Float maxPrice, String restaurantCity, String restaurantAddress, Date postedAt, Profile profile, List<RestaurantReview> restaurantReviewList, List<RestaurantImage> restaurantImageList, List<Dish> dishList, List<RestaurantRating> restaurantRatingList) {
+    public Restaurant(Integer id, String restaurantName, String restaurantDescription, Float minPrice, Float maxPrice, String restaurantCity, String restaurantAddress, Date postedAt, Profile profile, List<RestaurantReview> restaurantReviewList, List<RestaurantImage> restaurantImageList, List<RestaurantRating> restaurantRatingList) {
         this.id = id;
         this.restaurantName = restaurantName;
         this.restaurantDescription = restaurantDescription;
@@ -63,7 +55,6 @@ public class Restaurant {
         this.profile = profile;
         this.restaurantReviewList = restaurantReviewList;
         this.restaurantImageList = restaurantImageList;
-        this.dishList = dishList;
         this.restaurantRatingList = restaurantRatingList;
     }
 
@@ -155,14 +146,6 @@ public class Restaurant {
         this.restaurantImageList = restaurantImageList;
     }
 
-    public List<Dish> getDishList() {
-        return dishList;
-    }
-
-    public void setDishList(List<Dish> dishList) {
-        this.dishList = dishList;
-    }
-
     public List<RestaurantRating> getRestaurantRatingList() {
         return restaurantRatingList;
     }
@@ -185,14 +168,6 @@ public class Restaurant {
             this.restaurantImageList.add(restaurantImage);
         }
         this.restaurantImageList.add(restaurantImage);
-    }
-
-    public void addDish(Dish dish) {
-        if (this.dishList == null) {
-            this.dishList = new ArrayList<>();
-            this.dishList.add(dish);
-        }
-        this.dishList.add(dish);
     }
 
     public void addRestaurantRating(RestaurantRating restaurantRating) {
