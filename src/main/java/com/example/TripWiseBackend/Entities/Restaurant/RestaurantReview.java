@@ -1,6 +1,8 @@
 package com.example.TripWiseBackend.Entities.Restaurant;
 
+import com.example.TripWiseBackend.Entities.Hotel.Hotel;
 import com.example.TripWiseBackend.Entities.Profile.Profile;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -12,25 +14,25 @@ public class RestaurantReview {
     private Integer id;
     private String review;
     private Date postedAt;
-    private Float rating;
 
-    @ManyToOne
-    @JoinColumn(name = "profileId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurantId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","restaurantReviewList","restaurantImageList","dishList","restaurantRatingList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     public RestaurantReview() {
         super();
     }
 
-    public RestaurantReview(Integer id, String review, Date postedAt, Float rating, Profile profile, Restaurant restaurant) {
+    public RestaurantReview(Integer id, String review, Date postedAt, Profile profile, Restaurant restaurant) {
         this.id = id;
         this.review = review;
         this.postedAt = postedAt;
-        this.rating = rating;
         this.profile = profile;
         this.restaurant = restaurant;
     }
@@ -57,14 +59,6 @@ public class RestaurantReview {
 
     public void setPostedAt(Date postedAt) {
         this.postedAt = postedAt;
-    }
-
-    public Float getRating() {
-        return rating;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
     }
 
     public Profile getProfile() {

@@ -15,37 +15,38 @@ public class Place {
     private Integer id;
     private String placeName;
     private String placeDescription;
-    private String placeRating;
     private String placeCity;
     private String placeAddress;
     private Date postedAt;
 
-    @JsonIgnoreProperties(value = {"hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
-    @ManyToOne
-    @JoinColumn(name = "profileId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"profile","place"})
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","place"})
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<PlaceReview> placeReviewList;
 
-    @JsonIgnoreProperties(value = {"place"})
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
     private List<PlaceImage> placeImageList;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "place_id", referencedColumnName = "id")
     private List<PlaceRating> placeRatingList;
+
 
     public Place() {
         super();
     }
 
-    public Place(Integer id, String placeName, String placeDescription, String placeRating, String placeCity, String placeAddress, Date postedAt, Profile profile, List<PlaceReview> placeReviewList, List<PlaceImage> placeImageList, List<PlaceRating> placeRatingList) {
+    public Place(Integer id, String placeName, String placeDescription, String placeCity, String placeAddress, Date postedAt, Profile profile, List<PlaceReview> placeReviewList, List<PlaceImage> placeImageList, List<PlaceRating> placeRatingList) {
         this.id = id;
         this.placeName = placeName;
         this.placeDescription = placeDescription;
-        this.placeRating = placeRating;
         this.placeCity = placeCity;
         this.placeAddress = placeAddress;
         this.postedAt = postedAt;
@@ -77,14 +78,6 @@ public class Place {
 
     public void setPlaceDescription(String placeDescription) {
         this.placeDescription = placeDescription;
-    }
-
-    public String getPlaceRating() {
-        return placeRating;
-    }
-
-    public void setPlaceRating(String placeRating) {
-        this.placeRating = placeRating;
     }
 
     public String getPlaceCity() {

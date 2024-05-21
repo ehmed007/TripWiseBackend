@@ -22,7 +22,6 @@ public class RestaurantRating {
         this.rating = rating;
     }
 
-
     public Integer getId() {
         return id;
     }

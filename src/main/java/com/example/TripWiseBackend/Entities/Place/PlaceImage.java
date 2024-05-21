@@ -1,6 +1,5 @@
 package com.example.TripWiseBackend.Entities.Place;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,20 +10,14 @@ public class PlaceImage {
     private String imageUrl;
     private String publicId;
 
-    @JsonIgnoreProperties(value = {"profile","placeReviewList","placeImageList"})
-    @ManyToOne
-    @JoinColumn(name = "placeId",referencedColumnName = "id")
-    private Place place;
-
     public PlaceImage() {
         super();
     }
 
-    public PlaceImage(Integer id, String imageUrl, String publicId, Place place) {
+    public PlaceImage(Integer id, String imageUrl, String publicId) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.publicId = publicId;
-        this.place = place;
     }
 
     public Integer getId() {
@@ -51,11 +44,4 @@ public class PlaceImage {
         this.publicId = publicId;
     }
 
-    public Place getPlace() {
-        return place;
-    }
-
-    public void setPlace(Place place) {
-        this.place = place;
-    }
 }

@@ -13,16 +13,14 @@ public class PlaceReview {
     private Integer id;
     private String review;
     private Date postedAt;
-    private Float rating;
-
-
-    @JsonIgnoreProperties(value = {"hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
-    @ManyToOne
+    
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profileId", referencedColumnName = "id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"profile","placeReviewList","placeImageList"})
-    @ManyToOne
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","placeReviewList","placeImageList"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "placeId", referencedColumnName = "id")
     private Place place;
 
@@ -52,14 +50,6 @@ public class PlaceReview {
 
     public void setPostedAt(Date postedAt) {
         this.postedAt = postedAt;
-    }
-
-    public Float getRating() {
-        return rating;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
     }
 
     public Profile getProfile() {

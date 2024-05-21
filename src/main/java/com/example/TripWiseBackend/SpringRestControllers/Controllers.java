@@ -42,28 +42,27 @@ public class Controllers {
     @Autowired
     private Cloudinary cloudinary;
 
-    @GetMapping("/")
+    @GetMapping("/ch")
     public List Home() {
         Profile profile = new Profile();
         profile.setFirstName("ahmed");
         profile.setLastName("rasheed");
 
-        Hotel hotel = new Hotel();
-        hotel.setHotelName("ahmeds hotel");
-        hotel.setHotelCity("lahore");
-        hotel.setProfile(profile);
+//        Hotel hotel = new Hotel();
+//        hotel.setHotelName("ahmeds hotel");
+//        hotel.setHotelCity("lahore");
+//        hotel.setProfile(profile);
 
 
 
         HotelReview hotelReview = new HotelReview();
         hotelReview.setReview("this was beautifull");
-        hotelReview.setRating(5F);
 
         hotelReview.setProfile(profile);
-        hotelReview.setHotel(hotel);
+//        hotelReview.setHotel(hotel);
 
 
-        hotel.addHotelReview(hotelReview);
+//        hotel.addHotelReview(hotelReview);
 
         Restaurant restaurant = new Restaurant();
         restaurant.setRestaurantName("Ahmeds restaurants");
@@ -83,7 +82,7 @@ public class Controllers {
         placeReview.setProfile(profile);
         placeReview.setPlace(place);
 
-        profile.addHotel(hotel);
+//        profile.addHotel(hotel);
         profile.addHotelReview(hotelReview);
         profile.addRestaurant(restaurant);
         profile.addRestaurantReview(restaurantReview);
@@ -115,7 +114,6 @@ public class Controllers {
         Hotel hotel = this.hotelRepository.getReferenceById(1);
 
         HotelImage hotelImage = new HotelImage();
-        hotelImage.setHotel(hotel);
         hotelImage.setImageUrl(url);
         hotelImage.setPublicId(public_id);
 

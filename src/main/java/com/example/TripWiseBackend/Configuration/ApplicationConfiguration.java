@@ -3,6 +3,7 @@ package com.example.TripWiseBackend.Configuration;
 import com.cloudinary.Cloudinary;
 import com.example.TripWiseBackend.Entities.Profile.Profile;
 import com.example.TripWiseBackend.Repositories.Profile.ProfileRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -75,12 +76,10 @@ public class ApplicationConfiguration {
         return authenticationProvider;
     }
 
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -98,6 +97,5 @@ public class ApplicationConfiguration {
         props.put("mail.debug", "true");
         return mailSender;
     }
-    
 
 }

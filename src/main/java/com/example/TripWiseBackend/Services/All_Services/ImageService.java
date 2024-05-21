@@ -7,7 +7,7 @@ import java.util.Map;
 public interface ImageService {
     public Map addProfileImage(MultipartFile image, Integer profileId) throws Exception;
 
-    public Map addHotelImage(MultipartFile image, Integer profileId) throws Exception;
+    public Map addHotelImage(MultipartFile image, Integer hotelId) throws Exception;
 
     public Map addRestaurantImage(MultipartFile image, Integer profileId) throws Exception;
 

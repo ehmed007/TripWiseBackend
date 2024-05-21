@@ -9,7 +9,10 @@ import com.example.TripWiseBackend.Entities.Restaurant.Restaurant;
 import com.example.TripWiseBackend.Entities.Restaurant.RestaurantReview;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,33 +38,29 @@ public class Profile implements UserDetails {
     private String imgUrl;
     private String imgPublicId;
 
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile", "hotelReviewList","hotelImageList","hotelRatingList"})
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "profile", fetch = FetchType.EAGER)
+    private List<Hotel> hotelList;
 
-    // For Hotel
-    @JsonIgnoreProperties(value = {"profile", "hotelReviewList","hotelImageList"})
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Hotel> hotelList= new ArrayList<>();
-
-    @JsonIgnoreProperties(value = {"profile", "hotel"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile", "hotel"})
     @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<HotelReview> hotelReviewList;
 
     // For Restaurant
-    @JsonIgnoreProperties(value = {"profile","restaurantReviewList","restaurantImageList","dishList","cuisineList"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","restaurantReviewList","restaurantImageList","dishList","restaurantRatingList"})
     @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Restaurant> restaurantList;
 
-
-    @JsonIgnoreProperties(value = {"profile","restaurant"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","restaurant",})
     @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<RestaurantReview> restaurantReviewList;
 
-
     // For Place
-    @JsonIgnoreProperties(value = {"profile","placeReviewList","placeImageList"})
-    @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","placeReviewList","placeImageList","placeRatingList"})
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "profile", fetch = FetchType.EAGER)
     private List<Place> placeList;
 
-    @JsonIgnoreProperties(value = {"profile","place"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","place"})
     @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<PlaceReview> placeReviewList;
 
@@ -116,11 +115,13 @@ public class Profile implements UserDetails {
         this.lastName = lastName;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -130,21 +131,25 @@ public class Profile implements UserDetails {
         return this.username;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
@@ -154,6 +159,7 @@ public class Profile implements UserDetails {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 
+    @JsonIgnore
     public Role getRole() {
         return role;
     }
@@ -161,6 +167,7 @@ public class Profile implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+
 
     public String getGender() {
         return gender;
@@ -178,6 +185,7 @@ public class Profile implements UserDetails {
         this.imgUrl = imgUrl;
     }
 
+    @JsonIgnore
     public String getImgPublicId() {
         return imgPublicId;
     }
@@ -233,7 +241,6 @@ public class Profile implements UserDetails {
     public void setPlaceReviewList(List<PlaceReview> placeReviewList) {
         this.placeReviewList = placeReviewList;
     }
-
 
 
     // For Hotel

@@ -13,27 +13,25 @@ public class HotelReview {
     private Integer id;
     private String review;
     private Date postedAt;
-    private Float rating;
 
-    @JsonIgnoreProperties(value = {"hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
-    @ManyToOne
-    @JoinColumn(name = "profileId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"profile","hotelReviewList","hotelImageList"})
-    @ManyToOne
-    @JoinColumn(name = "hotelId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","hotelReviewList","hotelImageList","hotelRatingList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
     public HotelReview() {
         super();
     }
 
-    public HotelReview(Integer id, String review, Date postedAt, Float rating, Profile profile, Hotel hotel) {
+    public HotelReview(Integer id, String review, Date postedAt, Profile profile, Hotel hotel) {
         this.id = id;
         this.review = review;
         this.postedAt = postedAt;
-        this.rating = rating;
         this.profile = profile;
         this.hotel = hotel;
     }
@@ -62,14 +60,6 @@ public class HotelReview {
         this.postedAt = postedAt;
     }
 
-    public Float getRating() {
-        return rating;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-
     public Profile getProfile() {
         return profile;
     }
@@ -84,5 +74,15 @@ public class HotelReview {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+    }
+
+    @Override
+    public String toString() {
+        return "HotelReview{" +
+                "id=" + id +
+                ", review='" + review + '\'' +
+                ", postedAt=" + postedAt +
+                ", profile=" + profile +
+                '}';
     }
 }

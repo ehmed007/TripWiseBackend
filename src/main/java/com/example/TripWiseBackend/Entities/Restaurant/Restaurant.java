@@ -1,6 +1,5 @@
 package com.example.TripWiseBackend.Entities.Restaurant;
 
-import com.example.TripWiseBackend.Entities.Place.PlaceRating;
 import com.example.TripWiseBackend.Entities.Profile.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -18,23 +17,21 @@ public class Restaurant {
     private String restaurantDescription;
     private Float minPrice;
     private Float maxPrice;
-    private Float restaurantRating;
     private String restaurantCity;
     private String restaurantAddress;
     private Date postedAt;
 
-
-    @JsonIgnoreProperties(value = {"hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
-    @ManyToOne
-    @JoinColumn(name = "profileId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"restaurant","profile"})
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","restaurant","profile"})
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RestaurantReview> restaurantReviewList;
 
-    @JsonIgnoreProperties(value = {"restaurant"})
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<RestaurantImage> restaurantImageList;
 
     @JsonIgnoreProperties(value = {"restaurantList"})
@@ -46,32 +43,20 @@ public class Restaurant {
     )
     private List<Dish> dishList;
 
-    @JsonIgnoreProperties(value = {"restaurantList"})
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(
-            name = "Restaurant_Cuisine",
-            joinColumns = @JoinColumn(name = "Cuisine_id"),
-            inverseJoinColumns = @JoinColumn(name = "Restaurant_id")
-    )
-    private List<Cuisine> cuisineList;
-
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private List<RestaurantRating> restaurantRatingList;
-
 
     public Restaurant() {
         super();
     }
 
-    public Restaurant(Integer id, String restaurantName, String restaurantDescription, Float minPrice, Float maxPrice, Float restaurantRating, String restaurantCity, String restaurantAddress, Date postedAt, Profile profile, List<RestaurantReview> restaurantReviewList, List<RestaurantImage> restaurantImageList, List<Dish> dishList, List<Cuisine> cuisineList, List<RestaurantRating> restaurantRatingList) {
+    public Restaurant(Integer id, String restaurantName, String restaurantDescription, Float minPrice, Float maxPrice, String restaurantCity, String restaurantAddress, Date postedAt, Profile profile, List<RestaurantReview> restaurantReviewList, List<RestaurantImage> restaurantImageList, List<Dish> dishList, List<RestaurantRating> restaurantRatingList) {
         this.id = id;
         this.restaurantName = restaurantName;
         this.restaurantDescription = restaurantDescription;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
-        this.restaurantRating = restaurantRating;
         this.restaurantCity = restaurantCity;
         this.restaurantAddress = restaurantAddress;
         this.postedAt = postedAt;
@@ -79,7 +64,6 @@ public class Restaurant {
         this.restaurantReviewList = restaurantReviewList;
         this.restaurantImageList = restaurantImageList;
         this.dishList = dishList;
-        this.cuisineList = cuisineList;
         this.restaurantRatingList = restaurantRatingList;
     }
 
@@ -121,14 +105,6 @@ public class Restaurant {
 
     public void setMaxPrice(Float maxPrice) {
         this.maxPrice = maxPrice;
-    }
-
-    public Float getRestaurantRating() {
-        return restaurantRating;
-    }
-
-    public void setRestaurantRating(Float restaurantRating) {
-        this.restaurantRating = restaurantRating;
     }
 
     public String getRestaurantCity() {
@@ -187,14 +163,6 @@ public class Restaurant {
         this.dishList = dishList;
     }
 
-    public List<Cuisine> getCuisineList() {
-        return cuisineList;
-    }
-
-    public void setCuisineList(List<Cuisine> cuisineList) {
-        this.cuisineList = cuisineList;
-    }
-
     public List<RestaurantRating> getRestaurantRatingList() {
         return restaurantRatingList;
     }
@@ -227,15 +195,7 @@ public class Restaurant {
         this.dishList.add(dish);
     }
 
-    public void addCuisine(Cuisine cuisine) {
-        if (this.cuisineList == null) {
-            this.cuisineList = new ArrayList<>();
-            this.cuisineList.add(cuisine);
-        }
-        this.cuisineList.add(cuisine);
-    }
-
-    public void addRating(RestaurantRating restaurantRating) {
+    public void addRestaurantRating(RestaurantRating restaurantRating) {
         if (this.restaurantRatingList == null) {
             this.restaurantRatingList = new ArrayList<>();
             this.restaurantRatingList.add(restaurantRating);

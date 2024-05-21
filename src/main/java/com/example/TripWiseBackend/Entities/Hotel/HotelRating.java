@@ -1,6 +1,5 @@
 package com.example.TripWiseBackend.Entities.Hotel;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity

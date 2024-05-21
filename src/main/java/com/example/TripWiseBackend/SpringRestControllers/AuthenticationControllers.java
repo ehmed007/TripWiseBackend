@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +65,9 @@ public class AuthenticationControllers {
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
     }
 
-
-
+    @GetMapping("/check")
+    public String check() {
+        return "Hello World!";
+    }
 
 }

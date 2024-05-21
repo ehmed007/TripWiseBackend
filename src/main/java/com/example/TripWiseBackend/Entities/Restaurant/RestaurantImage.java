@@ -10,19 +10,14 @@ public class RestaurantImage {
     private String imageUrl;
     private String publicId;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurantId",referencedColumnName = "id")
-    private Restaurant restaurant;
-
     public RestaurantImage() {
         super();
     }
 
-    public RestaurantImage(Integer id, String imageUrl, String publicId, Restaurant restaurant) {
+    public RestaurantImage(Integer id, String imageUrl, String publicId) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.publicId = publicId;
-        this.restaurant = restaurant;
     }
 
     public Integer getId() {
@@ -49,11 +44,4 @@ public class RestaurantImage {
         this.publicId = publicId;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
 }

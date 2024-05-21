@@ -1,8 +1,11 @@
 package com.example.TripWiseBackend.Entities.Hotel;
 
 import com.example.TripWiseBackend.Entities.Profile.Profile;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,43 +22,38 @@ public class Hotel {
     private Boolean breakFastIncluded;
     private Integer minPrice;
     private Integer maxPrice;
-    private Float hotelRating;
     private String hotelCity;
     private String hotelAddress;
     private Date postedAt;
 
-
-    @JsonIgnoreProperties(value = {"hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
-    @ManyToOne
-    @JoinColumn(name = "profileId", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotelList","hotelReviewList","restaurantList","restaurantReviewList","placeList","placeReviewList"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"profile","hotel"})
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private List<HotelReview> hotelReviewList;
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","hotel"})
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<HotelReview> hotelReviewList = new ArrayList<>();
 
-    @JsonIgnoreProperties(value = {"hotel"})
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private List<HotelImage> hotelImageList;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id", referencedColumnName = "id")
-    private List<HotelRating> hotelRatingList;
+    private List<HotelImage> hotelImageList = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
+    private List<HotelRating> hotelRatingList = new ArrayList<>();
 
     public Hotel() {
         super();
     }
 
-    public Hotel(Integer id, String hotelName, String hotelDescription, String hotelClass, Boolean breakFastIncluded, Integer minPrice, Integer maxPrice, Float hotelRating, String hotelCity, String hotelAddress, Date postedAt, Profile profile, List<HotelReview> hotelReviewList, List<HotelImage> hotelImageList, List<HotelRating> hotelRatingList) {
-        this.id = id;
+    public Hotel(String hotelName, String hotelDescription, String hotelClass, Boolean breakFastIncluded, Integer minPrice, Integer maxPrice, String hotelCity, String hotelAddress, Date postedAt, Profile profile, List<HotelReview> hotelReviewList, List<HotelImage> hotelImageList, List<HotelRating> hotelRatingList) {
         this.hotelName = hotelName;
         this.hotelDescription = hotelDescription;
         this.hotelClass = hotelClass;
         this.breakFastIncluded = breakFastIncluded;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
-        this.hotelRating = hotelRating;
         this.hotelCity = hotelCity;
         this.hotelAddress = hotelAddress;
         this.postedAt = postedAt;
@@ -119,14 +117,6 @@ public class Hotel {
 
     public void setMaxPrice(Integer maxPrice) {
         this.maxPrice = maxPrice;
-    }
-
-    public Float getHotelRating() {
-        return hotelRating;
-    }
-
-    public void setHotelRating(Float hotelRating) {
-        this.hotelRating = hotelRating;
     }
 
     public String getHotelCity() {
