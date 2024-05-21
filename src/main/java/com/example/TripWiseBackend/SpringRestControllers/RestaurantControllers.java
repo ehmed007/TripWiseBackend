@@ -1,17 +1,12 @@
 package com.example.TripWiseBackend.SpringRestControllers;
 
-import com.example.TripWiseBackend.Entities.Hotel.Hotel;
-import com.example.TripWiseBackend.Entities.Hotel.HotelRating;
-import com.example.TripWiseBackend.Entities.Hotel.HotelReview;
 import com.example.TripWiseBackend.Entities.Profile.Profile;
-import com.example.TripWiseBackend.Entities.Restaurant.Dish;
 import com.example.TripWiseBackend.Entities.Restaurant.Restaurant;
 import com.example.TripWiseBackend.Entities.Restaurant.RestaurantRating;
 import com.example.TripWiseBackend.Entities.Restaurant.RestaurantReview;
 import com.example.TripWiseBackend.Exceptions.CustomExceptions.ResourceNotFoundException;
 import com.example.TripWiseBackend.Models.Request.RestaurantRequest;
 import com.example.TripWiseBackend.Repositories.Profile.ProfileRepository;
-import com.example.TripWiseBackend.Repositories.Restaurant.DishRepository;
 import com.example.TripWiseBackend.Repositories.Restaurant.RestaurantRepository;
 import com.example.TripWiseBackend.Services.All_Services.ImageService;
 import com.example.TripWiseBackend.Services.All_Services.RestaurantService;
@@ -39,9 +34,6 @@ public class RestaurantControllers {
 
     @Autowired
     private ProfileRepository profileRepository;
-
-    @Autowired
-    private DishRepository dishRepository;
 
     @Autowired
     private ImageService imageService;
@@ -94,16 +86,6 @@ public class RestaurantControllers {
         Restaurant restaurant = this.restaurantService.getRestaurant(restaurantId);
         restaurant.addRestaurantRating(restaurantRating);
         this.restaurantRepository.save(restaurant);
-        return "Rating Added Successfully!";
-    }
-
-    @PostMapping("/addDish/{restaurantId}")
-    public String addDish(@PathVariable int restaurantId, @RequestBody Dish dish) throws ResourceNotFoundException {
-        Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Restaurant restaurant = this.restaurantService.getRestaurant(restaurantId);
-//        restaurant.addDish(dish);
-        dish.addRestaurant(restaurant);
-        this.dishRepository.save(dish);
         return "Rating Added Successfully!";
     }
 
