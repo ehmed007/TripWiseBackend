@@ -7,6 +7,7 @@ import com.example.TripWiseBackend.Entities.Profile.Profile;
 import com.example.TripWiseBackend.Exceptions.CustomExceptions.ResourceNotFoundException;
 import com.example.TripWiseBackend.Models.Request.HotelRequest;
 import com.example.TripWiseBackend.Repositories.Hotel.HotelRepository;
+import com.example.TripWiseBackend.Repositories.Hotel.HotelReviewRepository;
 import com.example.TripWiseBackend.Repositories.Profile.ProfileRepository;
 import com.example.TripWiseBackend.Services.All_Services.HotelService;
 import com.example.TripWiseBackend.Services.All_Services.ImageService;
@@ -34,6 +35,9 @@ public class HotelControllers {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private HotelReviewRepository hotelReviewRepository;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -93,5 +97,24 @@ public class HotelControllers {
         this.hotelRepository.save(hotel);
         return "Rating Added Successfully!";
     }
+
+    @GetMapping("/getAllHotelByProfile")
+    public List<Hotel> getAllHotelByProfile() throws ResourceNotFoundException {
+        Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.hotelRepository.getHotelByProfileId(profile.getId());
+    }
+
+    @GetMapping("/getAllHotelReviewsByProfile")
+    public List<HotelReview> getHotelReviewsByProfile() {
+        Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.hotelReviewRepository.getHotelReviewsByProfileId(profile.getId());
+    }
+
+    @GetMapping("/getAllHotelReviewsByHotelId/{hotelId}")
+    public List<HotelReview> getHotelReviewsByHotel(@PathVariable Integer hotelId) throws ResourceNotFoundException {
+        Hotel hotel = this.hotelService.getHotel(hotelId);
+        return this.hotelReviewRepository.getHotelReviewsByHotelId(hotel.getId());
+    }
+
 
 }

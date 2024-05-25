@@ -42,7 +42,7 @@ public class Profile implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "profile", fetch = FetchType.EAGER)
     private List<Hotel> hotelList;
 
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile", "hotel"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<HotelReview> hotelReviewList;
 

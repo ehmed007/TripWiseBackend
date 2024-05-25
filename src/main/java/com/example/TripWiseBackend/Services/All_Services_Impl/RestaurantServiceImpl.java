@@ -32,7 +32,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setRestaurantCity(restaurantRequest.getRestaurantCity());
         restaurant.setRestaurantDescription(restaurantRequest.getRestaurantDescription());
         restaurant.setMinPrice(restaurantRequest.getMinPrice());
-        restaurant.setMaxPrice(restaurant.getMaxPrice());
+        restaurant.setMaxPrice(restaurantRequest.getMaxPrice());
         restaurant.setPostedAt(new Date());
 
         Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -60,4 +60,5 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Restaurant> getAllRestaurant() {
         return this.restaurantRepository.findAll();
     }
+
 }

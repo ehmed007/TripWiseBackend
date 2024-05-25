@@ -76,13 +76,4 @@ public class HotelReview {
         this.hotel = hotel;
     }
 
-    @Override
-    public String toString() {
-        return "HotelReview{" +
-                "id=" + id +
-                ", review='" + review + '\'' +
-                ", postedAt=" + postedAt +
-                ", profile=" + profile +
-                '}';
-    }
 }

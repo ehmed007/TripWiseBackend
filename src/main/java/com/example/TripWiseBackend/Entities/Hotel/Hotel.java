@@ -31,7 +31,7 @@ public class Hotel {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","hotel"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","hotel","profile"})
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<HotelReview> hotelReviewList = new ArrayList<>();
 
