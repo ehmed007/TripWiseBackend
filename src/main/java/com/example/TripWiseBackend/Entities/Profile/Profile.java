@@ -2,11 +2,13 @@ package com.example.TripWiseBackend.Entities.Profile;
 
 import com.example.TripWiseBackend.Entities.Enums.Role;
 import com.example.TripWiseBackend.Entities.Hotel.Hotel;
+import com.example.TripWiseBackend.Entities.Hotel.HotelRating;
 import com.example.TripWiseBackend.Entities.Hotel.HotelReview;
 import com.example.TripWiseBackend.Entities.Place.Place;
 import com.example.TripWiseBackend.Entities.Place.PlaceReview;
 import com.example.TripWiseBackend.Entities.Restaurant.Restaurant;
 import com.example.TripWiseBackend.Entities.Restaurant.RestaurantReview;
+import com.example.TripWiseBackend.Entities.ThingsToDo.ThingsToDo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -64,12 +66,16 @@ public class Profile implements UserDetails {
     @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<PlaceReview> placeReviewList;
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private List<ThingsToDo> thingsToDoList;
+
 
     public Profile() {
         super();
     }
 
-    public Profile(Integer id, String username, String firstName, String lastName, String password, Role role, String gender, String imgUrl, String imgPublicId, List<Hotel> hotelList, List<HotelReview> hotelReviewList, List<Restaurant> restaurantList, List<RestaurantReview> restaurantReviewList, List<Place> placeList, List<PlaceReview> placeReviewList) {
+    public Profile(Integer id, String username, String firstName, String lastName, String password, Role role, String gender, String imgUrl, String imgPublicId, List<Hotel> hotelList, List<HotelReview> hotelReviewList, List<Restaurant> restaurantList, List<RestaurantReview> restaurantReviewList, List<Place> placeList, List<PlaceReview> placeReviewList, List<ThingsToDo> thingsToDoList) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -85,6 +91,7 @@ public class Profile implements UserDetails {
         this.restaurantReviewList = restaurantReviewList;
         this.placeList = placeList;
         this.placeReviewList = placeReviewList;
+        this.thingsToDoList = thingsToDoList;
     }
 
     public Integer getId() {
@@ -243,6 +250,14 @@ public class Profile implements UserDetails {
     }
 
 
+    public List<ThingsToDo> getThingsToDoList() {
+        return thingsToDoList;
+    }
+
+    public void setThingsToDoList(List<ThingsToDo> thingsToDoList) {
+        this.thingsToDoList = thingsToDoList;
+    }
+
     // For Hotel
     public void addHotelReview(HotelReview hotelReview) {
         if (this.hotelReviewList == null) {
@@ -295,6 +310,14 @@ public class Profile implements UserDetails {
             this.placeReviewList.add(placeReview);
         }
         this.placeReviewList.add(placeReview);
+    }
+
+    public void addThingsToDo(ThingsToDo thingsToDo) {
+        if (this.thingsToDoList == null) {
+            this.thingsToDoList = new ArrayList<>();
+            this.thingsToDoList.add(thingsToDo);
+        }
+        this.thingsToDoList.add(thingsToDo);
     }
 
 }
