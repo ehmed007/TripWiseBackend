@@ -97,7 +97,7 @@ public class HotelControllers {
         this.hotelRepository.save(hotel);
         return "Rating Added Successfully!";
     }
-
+                
     @GetMapping("/getAllHotelByProfile")
     public List<Hotel> getAllHotelByProfile() throws ResourceNotFoundException {
         Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -1,5 +1,6 @@
 package com.example.TripWiseBackend.SpringRestControllers;
 
+import com.example.TripWiseBackend.Entities.Place.Place;
 import com.example.TripWiseBackend.Entities.Profile.Profile;
 import com.example.TripWiseBackend.Entities.Restaurant.Restaurant;
 import com.example.TripWiseBackend.Entities.Restaurant.RestaurantRating;
@@ -89,6 +90,12 @@ public class RestaurantControllers {
         return "Rating Added Successfully!";
     }
 
+
+    @GetMapping("/getAllRestaurantByProfile")
+    public List<Restaurant> getAllRestaurantByProfile() throws ResourceNotFoundException {
+        Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.restaurantRepository.getRestaurantByProfileId(profile.getId());
+    }
 
 
 }

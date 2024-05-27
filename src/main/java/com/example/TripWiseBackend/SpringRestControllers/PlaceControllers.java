@@ -89,4 +89,10 @@ public class PlaceControllers {
         return "Rating Added Successfully!";
     }
 
+    @GetMapping("/getAllPlaceByProfile")
+    public List<Place> getAllPlaceByProfile() throws ResourceNotFoundException {
+        Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.placeRepository.getPlaceByProfileId(profile.getId());
+    }
+
 }

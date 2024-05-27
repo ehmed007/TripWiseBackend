@@ -24,7 +24,7 @@ public class Place {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","profile","place"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","place"})
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<PlaceReview> placeReviewList;
 
