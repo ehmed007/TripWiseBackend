@@ -15,4 +15,5 @@ public interface HotelReviewRepository extends JpaRepository<HotelReview, Intege
 
     @Query(value = "SELECT * FROM hotel_review WHERE hotel_id = :hotel_id", nativeQuery = true)
     public List<HotelReview> getHotelReviewsByHotelId(@Param("hotel_id") Integer hotel_id);
+
 }

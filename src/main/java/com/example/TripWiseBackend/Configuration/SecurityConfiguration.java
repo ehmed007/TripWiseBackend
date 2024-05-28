@@ -41,6 +41,8 @@ public class SecurityConfiguration {
                 .requestMatchers("place/getAllPlaceReviewsByPlaceId/**").permitAll()
                 .requestMatchers("restaurant/getAllRestaurantReviewsByRestaurantId/**").permitAll()
 
+                .requestMatchers("hotel/getAllHotelByCity/**").permitAll()
+
 
                 .requestMatchers("auth/**").permitAll()
                 .anyRequest()

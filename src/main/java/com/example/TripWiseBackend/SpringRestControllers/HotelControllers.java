@@ -18,10 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/hotel")
@@ -114,6 +111,11 @@ public class HotelControllers {
     public List<HotelReview> getAllHotelReviewsByHotel(@PathVariable Integer hotelId) throws ResourceNotFoundException {
         Hotel hotel = this.hotelService.getHotel(hotelId);
         return this.hotelReviewRepository.getHotelReviewsByHotelId(hotel.getId());
+    }
+
+    @GetMapping("/getAllHotelByCity/{city}")
+    public List<Hotel> getAllHotelByCity(@PathVariable String city) throws ResourceNotFoundException {
+        return this.hotelRepository.getHotelByCity(city.toLowerCase());
     }
 
 

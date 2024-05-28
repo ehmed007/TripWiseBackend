@@ -14,5 +14,6 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Query(value = "SELECT * FROM hotel WHERE profile_id = :profile_id", nativeQuery = true)
     public List<Hotel> getHotelByProfileId(@Param("profile_id") Integer profile_id);
 
-
+    @Query(value = "SELECT * FROM hotel WHERE LOWER(hotel_city) LIKE LOWER(:city)", nativeQuery = true)
+    public List<Hotel> getHotelByCity(@Param("city") String city);
 }
