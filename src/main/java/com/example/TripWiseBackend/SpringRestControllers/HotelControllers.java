@@ -97,7 +97,7 @@ public class HotelControllers {
         this.hotelRepository.save(hotel);
         return "Rating Added Successfully!";
     }
-                
+
     @GetMapping("/getAllHotelByProfile")
     public List<Hotel> getAllHotelByProfile() throws ResourceNotFoundException {
         Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -105,13 +105,13 @@ public class HotelControllers {
     }
 
     @GetMapping("/getAllHotelReviewsByProfile")
-    public List<HotelReview> getHotelReviewsByProfile() {
+    public List<HotelReview> getAllHotelReviewsByProfile() {
         Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return this.hotelReviewRepository.getHotelReviewsByProfileId(profile.getId());
     }
 
     @GetMapping("/getAllHotelReviewsByHotelId/{hotelId}")
-    public List<HotelReview> getHotelReviewsByHotel(@PathVariable Integer hotelId) throws ResourceNotFoundException {
+    public List<HotelReview> getAllHotelReviewsByHotel(@PathVariable Integer hotelId) throws ResourceNotFoundException {
         Hotel hotel = this.hotelService.getHotel(hotelId);
         return this.hotelReviewRepository.getHotelReviewsByHotelId(hotel.getId());
     }

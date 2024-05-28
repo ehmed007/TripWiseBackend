@@ -7,6 +7,7 @@ import com.example.TripWiseBackend.Entities.Profile.Profile;
 import com.example.TripWiseBackend.Exceptions.CustomExceptions.ResourceNotFoundException;
 import com.example.TripWiseBackend.Models.Request.PlaceRequest;
 import com.example.TripWiseBackend.Repositories.Place.PlaceRepository;
+import com.example.TripWiseBackend.Repositories.Place.PlaceReviewRepository;
 import com.example.TripWiseBackend.Repositories.Profile.ProfileRepository;
 import com.example.TripWiseBackend.Services.All_Services.ImageService;
 import com.example.TripWiseBackend.Services.All_Services.PlaceService;
@@ -37,6 +38,9 @@ public class PlaceControllers {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private PlaceReviewRepository placeReviewRepository;
 
     @PostMapping("/addPlace")
     public Place addPlace(@RequestBody PlaceRequest placeRequest) {
@@ -93,6 +97,12 @@ public class PlaceControllers {
     public List<Place> getAllPlaceByProfile() throws ResourceNotFoundException {
         Profile profile = (Profile) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return this.placeRepository.getPlaceByProfileId(profile.getId());
+    }
+
+    @GetMapping("/getAllPlaceReviewsByPlaceId/{placeId}")
+    public List<PlaceReview> getAllPlaceReviewsByPlace(@PathVariable Integer placeId) throws ResourceNotFoundException {
+        Place place = this.placeService.getPlace(placeId);
+        return this.placeReviewRepository.getPlaceReviewsByPlaceId(place.getId());
     }
 
 }

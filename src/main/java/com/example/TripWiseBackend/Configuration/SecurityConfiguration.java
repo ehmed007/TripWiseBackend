@@ -29,6 +29,19 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
 //                .requestMatchers("barber/addBarber").hasRole("ADMIN")
 //                .requestMatchers("barber//uploadBarberImage/**").hasRole("ADMIN")
+                .requestMatchers("hotel/getAllHotel").permitAll()
+                .requestMatchers("place/getAllPlace").permitAll()
+                .requestMatchers("restaurant/getAllRestaurant").permitAll()
+
+                .requestMatchers("hotel/getHotel/**").permitAll()
+                .requestMatchers("place/getPlace/**").permitAll()
+                .requestMatchers("restaurant/getRestaurant/**").permitAll()
+
+                .requestMatchers("hotel/getAllHotelReviewsByHotelId/**").permitAll()
+                .requestMatchers("place/getAllPlaceReviewsByPlaceId/**").permitAll()
+                .requestMatchers("restaurant/getAllRestaurantReviewsByRestaurantId/**").permitAll()
+
+
                 .requestMatchers("auth/**").permitAll()
                 .anyRequest()
                 .authenticated()

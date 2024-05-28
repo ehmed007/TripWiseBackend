@@ -1,6 +1,7 @@
 package com.example.TripWiseBackend.SpringRestControllers;
 
 import com.example.TripWiseBackend.Entities.Place.Place;
+import com.example.TripWiseBackend.Entities.Place.PlaceReview;
 import com.example.TripWiseBackend.Entities.Profile.Profile;
 import com.example.TripWiseBackend.Entities.Restaurant.Restaurant;
 import com.example.TripWiseBackend.Entities.Restaurant.RestaurantRating;
@@ -9,6 +10,7 @@ import com.example.TripWiseBackend.Exceptions.CustomExceptions.ResourceNotFoundE
 import com.example.TripWiseBackend.Models.Request.RestaurantRequest;
 import com.example.TripWiseBackend.Repositories.Profile.ProfileRepository;
 import com.example.TripWiseBackend.Repositories.Restaurant.RestaurantRepository;
+import com.example.TripWiseBackend.Repositories.Restaurant.RestaurantReviewRepository;
 import com.example.TripWiseBackend.Services.All_Services.ImageService;
 import com.example.TripWiseBackend.Services.All_Services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ public class RestaurantControllers {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private RestaurantReviewRepository restaurantReviewRepository;
 
     @PostMapping("/addRestaurant")
     public Restaurant addRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
@@ -97,5 +102,11 @@ public class RestaurantControllers {
         return this.restaurantRepository.getRestaurantByProfileId(profile.getId());
     }
 
+
+    @GetMapping("/getAllRestaurantReviewsByRestaurantId/{restaurantId}")
+    public List<RestaurantReview> getAllRestaurantReviewsByHotel(@PathVariable Integer restaurantId) throws ResourceNotFoundException {
+        Restaurant restaurant = this.restaurantService.getRestaurant(restaurantId);
+        return this.restaurantReviewRepository.getRestaurantReviewsByRestaurantId(restaurant.getId());
+    }
 
 }
