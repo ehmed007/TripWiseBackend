@@ -11,6 +11,7 @@ import com.example.TripWiseBackend.Repositories.Hotel.HotelReviewRepository;
 import com.example.TripWiseBackend.Repositories.Profile.ProfileRepository;
 import com.example.TripWiseBackend.Services.All_Services.HotelService;
 import com.example.TripWiseBackend.Services.All_Services.ImageService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +84,7 @@ public class HotelControllers {
         profile.addHotelReview(hotelReview);
         this.hotelRepository.save(hotel);
         this.profileRepository.save(profile);
+        this.hotelReviewRepository.save(hotelReview);
         return "Review Added Successfully!";
     }
 
@@ -117,6 +119,5 @@ public class HotelControllers {
     public List<Hotel> getAllHotelByCity(@PathVariable String city) throws ResourceNotFoundException {
         return this.hotelRepository.getHotelByCity(city.toLowerCase());
     }
-
 
 }

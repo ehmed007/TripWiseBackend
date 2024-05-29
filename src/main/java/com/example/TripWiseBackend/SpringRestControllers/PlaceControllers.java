@@ -1,5 +1,6 @@
 package com.example.TripWiseBackend.SpringRestControllers;
 
+import com.example.TripWiseBackend.Entities.Hotel.Hotel;
 import com.example.TripWiseBackend.Entities.Place.Place;
 import com.example.TripWiseBackend.Entities.Place.PlaceRating;
 import com.example.TripWiseBackend.Entities.Place.PlaceReview;
@@ -103,6 +104,11 @@ public class PlaceControllers {
     public List<PlaceReview> getAllPlaceReviewsByPlace(@PathVariable Integer placeId) throws ResourceNotFoundException {
         Place place = this.placeService.getPlace(placeId);
         return this.placeReviewRepository.getPlaceReviewsByPlaceId(place.getId());
+    }
+
+    @GetMapping("/getAllPlaceByCity/{city}")
+    public List<Place> getAllPlaceByCity(@PathVariable String city) throws ResourceNotFoundException {
+        return this.placeRepository.getPlaceByCity(city.toLowerCase());
     }
 
 }

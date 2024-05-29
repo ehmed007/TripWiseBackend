@@ -109,4 +109,9 @@ public class RestaurantControllers {
         return this.restaurantReviewRepository.getRestaurantReviewsByRestaurantId(restaurant.getId());
     }
 
+    @GetMapping("/getAllRestaurantByCity/{city}")
+    public List<Restaurant> getAllRestaurantByCity(@PathVariable String city) throws ResourceNotFoundException {
+        return this.restaurantRepository.getRestaurantByCity(city.toLowerCase());
+    }
+
 }

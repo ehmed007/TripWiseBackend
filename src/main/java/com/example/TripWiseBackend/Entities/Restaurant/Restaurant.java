@@ -26,7 +26,7 @@ public class Restaurant {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler","restaurant","profile"})
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RestaurantReview> restaurantReviewList;
 
